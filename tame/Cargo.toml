@@ -1,0 +1,9 @@
+[package]
+name = "tame"
+version = "0.3.0"
+edition = "2024"
+description = "Minimalistic Personal AI Assistant"
+license = "BUSL-1.1"
+
+[dependencies]
+crb = "0.0.33"
