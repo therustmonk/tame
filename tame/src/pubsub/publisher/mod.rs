@@ -9,6 +9,6 @@ pub struct Pub<T: PubSub> {
     inner: Arc<PubInner<T>>,
 }
 
-struct PubInner<T: PubSub> {
+pub struct PubInner<T: PubSub> {
     agent: Address<PubAgent<T>>,
 }
