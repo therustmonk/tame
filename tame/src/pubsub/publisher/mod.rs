@@ -6,7 +6,13 @@ use crb::agent::Address;
 use std::sync::Arc;
 
 pub struct Pub<T: PubSub> {
-    inner: Arc<PubInner<T>>,
+    inner: Arc<T::Publisher>,
+}
+
+impl<T: PubSub> Pub<T> {
+    pub fn new(state: T) -> Self {
+        todo!()
+    }
 }
 
 pub struct PubInner<T: PubSub> {
