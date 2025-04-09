@@ -1,4 +1,5 @@
 mod publisher;
+mod registrar;
 
 use publisher::PubInner;
 use std::ops::Deref;

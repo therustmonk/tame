@@ -11,6 +11,7 @@ pub struct Pub<T: PubSub> {
 
 impl<T: PubSub> Pub<T> {
     pub fn new(state: T) -> Self {
+        let agent = PubAgent::new(state);
         todo!()
     }
 }
