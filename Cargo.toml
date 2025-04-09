@@ -16,5 +16,6 @@ anyhow = "1.0.97"
 async-trait = "0.1.88"
 console_error_panic_hook = "0.1.7"
 crb = { version = "0.0.33", default-features = false }
+derive_more = "2.0.1"
 log = "0.4.27"
 wasm-logger = "0.2.0"
