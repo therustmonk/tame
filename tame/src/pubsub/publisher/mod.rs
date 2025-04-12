@@ -1,23 +1,13 @@
 pub mod agent;
 
-use crate::pubsub::PubSub;
 use crate::pubsub::registrar::Registrar;
+use crate::pubsub::{PubEvent, PubSub, SubId};
 use agent::PubAgent;
 use anyhow::{Error, Result};
 use crb::agent::Address;
 use crb::superagent::{Drainer, InteractExt};
 use derive_more::{Deref, DerefMut};
 use std::sync::Arc;
-
-pub struct PubEvent<T: PubSub> {
-    pub value: PubValue<T>,
-}
-
-pub enum PubValue<T: PubSub> {
-    Connected,
-    Query(T::Query),
-    Disconnected,
-}
 
 #[derive(Deref, DerefMut)]
 pub struct Pub<T: PubSub> {
@@ -46,6 +36,16 @@ impl<T: PubSub> Pub<T> {
     pub async fn events(&mut self) -> Result<Drainer<PubEvent<T>>> {
         let request = agent::GetEvents::new();
         self.interact(request).await.map_err(Error::from)
+    }
+
+    pub fn broadcast(&self, delta: T::Delta) -> Result<()> {
+        let delta = agent::Dispatch::new(None, delta);
+        self.event(delta)
+    }
+
+    pub fn direct(&self, sub_id: SubId, delta: T::Delta) -> Result<()> {
+        let delta = agent::Dispatch::new(Some(sub_id), delta);
+        self.event(delta)
     }
 }
 

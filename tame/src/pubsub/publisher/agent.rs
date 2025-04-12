@@ -1,8 +1,8 @@
 use super::PubEvent;
-use crate::pubsub::PubSub;
+use crate::pubsub::{PubSub, SubId};
 use anyhow::Result;
 use async_trait::async_trait;
-use crb::agent::{Agent, AgentSession, Context};
+use crb::agent::{Agent, AgentSession, Context, OnEvent};
 use crb::core::{Slot, mpsc};
 use crb::superagent::{Drainer, OnRequest, Request};
 use std::marker::PhantomData;
@@ -52,5 +52,27 @@ impl<T: PubSub> OnRequest<GetEvents<T>> for PubAgent<T> {
         let rx = self.events_rx.take()?;
         let drainer = Drainer::from_mpsc(rx);
         Ok(drainer)
+    }
+}
+
+pub struct Dispatch<T: PubSub> {
+    sub_id: Option<SubId>,
+    delta: T::Delta,
+}
+
+impl<T: PubSub> Dispatch<T> {
+    pub fn new(sub_id: Option<SubId>, delta: T::Delta) -> Self {
+        Self { sub_id, delta }
+    }
+}
+
+#[async_trait]
+impl<T: PubSub> OnEvent<Dispatch<T>> for PubAgent<T> {
+    async fn handle(&mut self, event: Dispatch<T>, _ctx: &mut Context<Self>) -> Result<()> {
+        if let Some(sub_id) = event.sub_id {
+        } else {
+            // Distribute to all subscribers
+        }
+        Ok(())
     }
 }
