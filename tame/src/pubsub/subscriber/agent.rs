@@ -51,3 +51,20 @@ impl<T: PubSub> OnRequest<GetEvents<T>> for SubAgent<T> {
         Ok(drainer)
     }
 }
+
+pub struct Inquire<T: PubSub> {
+    query: T::Query,
+}
+
+impl<T: PubSub> Inquire<T> {
+    pub fn new(query: T::Query) -> Self {
+        Self { query }
+    }
+}
+
+#[async_trait]
+impl<T: PubSub> OnEvent<Inquire<T>> for SubAgent<T> {
+    async fn handle(&mut self, event: Inquire<T>, _ctx: &mut Context<Self>) -> Result<()> {
+        Ok(())
+    }
+}

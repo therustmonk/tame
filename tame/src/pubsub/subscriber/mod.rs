@@ -38,17 +38,10 @@ impl<T: PubSub> Sub<T> {
         self.interact(request).await.map_err(Error::from)
     }
 
-    /*
-    pub fn broadcast(&self, delta: T::Delta) -> Result<()> {
-        let delta = agent::Dispatch::new(None, delta);
-        self.event(delta)
+    pub fn query(&self, query: T::Query) -> Result<()> {
+        let query = agent::Inquire::new(query);
+        self.event(query)
     }
-
-    pub fn direct(&self, sub_id: SubId, delta: T::Delta) -> Result<()> {
-        let delta = agent::Dispatch::new(Some(sub_id), delta);
-        self.event(delta)
-    }
-    */
 }
 
 #[derive(Deref, DerefMut)]
