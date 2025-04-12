@@ -1,11 +1,12 @@
 mod publisher;
 mod registrar;
+mod subscriber;
 
-use crb::core::Unique;
+use crb::core::{Unique, watch};
 use publisher::PubInner;
 use std::ops::Deref;
 
-pub trait PubSub: Sized + Send + 'static {
+pub trait PubSub: Sized + Sync + Send + 'static {
     type Delta: Send;
     type Query: Send;
     type Publisher: Publisher<Self>;
@@ -34,4 +35,25 @@ pub enum PubValue<T: PubSub> {
     Connected,
     Query(T::Query),
     Disconnected,
+}
+
+pub enum SubEvent<T: PubSub> {
+    Loaded(State<T>),
+    Delta(T::Delta),
+    Lost,
+}
+
+pub struct State<T> {
+    state_rx: watch::Receiver<T>,
+}
+
+impl<T> State<T> {
+    pub fn new(state: T) -> (Self, watch::Sender<T>) {
+        let (state_tx, state_rx) = watch::channel(state);
+        (Self { state_rx }, state_tx)
+    }
+
+    pub fn borrow(&self) -> watch::Ref<T> {
+        self.state_rx.borrow()
+    }
 }

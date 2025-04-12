@@ -3,14 +3,16 @@ use crate::pubsub::{PubSub, SubId};
 use anyhow::Result;
 use async_trait::async_trait;
 use crb::agent::{Agent, AgentSession, Context, OnEvent};
-use crb::core::{Slot, mpsc};
+use crb::core::{Slot, Unique, mpsc};
 use crb::superagent::{Drainer, OnRequest, Request};
+use std::collections::HashMap;
 use std::marker::PhantomData;
 
 pub struct PubAgent<T: PubSub> {
     state: T,
     events_tx: mpsc::UnboundedSender<PubEvent<T>>,
     events_rx: Slot<mpsc::UnboundedReceiver<PubEvent<T>>>,
+    subscribers: HashMap<SubId, Unique<Flow>>,
 }
 
 impl<T: PubSub> Agent for PubAgent<T> {
@@ -24,6 +26,7 @@ impl<T: PubSub> PubAgent<T> {
             state,
             events_tx: tx,
             events_rx: Slot::filled(rx),
+            subscribers: HashMap::new(),
         }
     }
 }
@@ -75,4 +78,9 @@ impl<T: PubSub> OnEvent<Dispatch<T>> for PubAgent<T> {
         }
         Ok(())
     }
+}
+
+pub struct Flow {
+    sub_id: SubId,
+    // TODO: Address of a `SubAgent`
 }
