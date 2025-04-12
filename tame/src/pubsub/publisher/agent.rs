@@ -1,5 +1,4 @@
-use super::PubEvent;
-use crate::pubsub::{PubSub, SubId};
+use crate::pubsub::{PubEvent, PubSub, SubId};
 use anyhow::Result;
 use async_trait::async_trait;
 use crb::agent::{Agent, AgentSession, Context, OnEvent};

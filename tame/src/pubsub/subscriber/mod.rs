@@ -1,7 +1,7 @@
 pub mod agent;
 
 use crate::pubsub::registrar::Registrar;
-use crate::pubsub::{PubEvent, PubSub, SubId};
+use crate::pubsub::{PubSub, SubEvent, SubId};
 use agent::SubAgent;
 use anyhow::{Error, Result};
 use crb::agent::Address;
@@ -33,12 +33,12 @@ impl<T: PubSub> Sub<T> {
         Self { inner }
     }
 
-    /*
-    pub async fn events(&mut self) -> Result<Drainer<PubEvent<T>>> {
+    pub async fn events(&mut self) -> Result<Drainer<SubEvent<T>>> {
         let request = agent::GetEvents::new();
         self.interact(request).await.map_err(Error::from)
     }
 
+    /*
     pub fn broadcast(&self, delta: T::Delta) -> Result<()> {
         let delta = agent::Dispatch::new(None, delta);
         self.event(delta)
