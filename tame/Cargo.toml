@@ -11,6 +11,7 @@ async-trait.workspace = true
 crb.workspace = true
 derive_more.workspace = true
 log.workspace = true
+serde.workspace = true
 
 [features]
 default = ["std"]

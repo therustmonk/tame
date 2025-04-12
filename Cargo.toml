@@ -18,4 +18,5 @@ console_error_panic_hook = "0.1.7"
 crb = { version = "0.0.35", default-features = false }
 derive_more = "2.0.1"
 log = "0.4.27"
+serde = "1.0.219"
 wasm-logger = "0.2.0"

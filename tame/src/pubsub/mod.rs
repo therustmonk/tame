@@ -6,7 +6,7 @@ use std::ops::Deref;
 
 pub trait PubSub: Sized + Send + 'static {
     type Delta;
-    type Query;
+    type Query: Send;
     type Publisher: Publisher<Self>;
     type Subscriber: Subscriber<Self>;
 }
