@@ -1,5 +1,6 @@
 use crate::pubsub::PubSub;
 use crate::pubsub::publisher::agent::PubAgent;
+use crate::pubsub::subscriber::agent::SubAgent;
 use anyhow::Result;
 use async_trait::async_trait;
 use crb::agent::{Address, Agent, Context, DoAsync, Next, OnEvent, RunAgent};
@@ -23,6 +24,17 @@ impl RegistrarLink {
         let control = Control {
             runtime: Box::new(runtime),
             group: Group::Publisher,
+        };
+        BRIDGE.send(control);
+        address
+    }
+
+    pub fn spawn_sub<T: PubSub>(&self, agent: SubAgent<T>) -> Address<SubAgent<T>> {
+        let runtime = RunAgent::new(agent);
+        let address = runtime.address();
+        let control = Control {
+            runtime: Box::new(runtime),
+            group: Group::Subscriber,
         };
         BRIDGE.send(control);
         address

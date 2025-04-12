@@ -5,6 +5,7 @@ mod subscriber;
 use crb::core::{Unique, watch};
 use publisher::PubInner;
 use std::ops::Deref;
+use subscriber::SubInner;
 
 pub trait PubSub: Sized + Sync + Send + 'static {
     type Delta: Send;
@@ -20,7 +21,12 @@ where
 {
 }
 
-pub trait Subscriber<T: PubSub> {}
+pub trait Subscriber<T: PubSub>
+where
+    Self: From<SubInner<T>>,
+    Self: Deref<Target = SubInner<T>>,
+{
+}
 
 pub type PubId = Unique;
 

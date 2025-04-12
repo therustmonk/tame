@@ -11,7 +11,7 @@ use std::sync::Arc;
 
 #[derive(Deref, DerefMut)]
 pub struct Sub<T: PubSub> {
-    inner: Arc<T::Publisher>,
+    inner: Arc<T::Subscriber>,
 }
 
 impl<T: PubSub> Clone for Sub<T> {
@@ -24,7 +24,6 @@ impl<T: PubSub> Clone for Sub<T> {
 
 impl<T: PubSub> Sub<T> {
     pub fn new() -> Self {
-        /*
         let agent = SubAgent::new();
         let registrar = Registrar::link();
         let agent = registrar.spawn_sub(agent);
@@ -32,8 +31,6 @@ impl<T: PubSub> Sub<T> {
         let subscriber = T::Subscriber::from(sub_inner);
         let inner = Arc::new(subscriber);
         Self { inner }
-        */
-        todo!()
     }
 
     /*
