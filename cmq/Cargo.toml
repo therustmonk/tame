@@ -1,9 +1,10 @@
 [package]
 name = "cmq"
+description = "Composable Message Queue"
 version.workspace = true
 edition.workspace = true
-description.workspace = true
 license.workspace = true
+repository.workspace = true
 
 [dependencies]
 anyhow.workspace = true

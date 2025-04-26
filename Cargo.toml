@@ -7,8 +7,8 @@ members = [
 [workspace.package]
 version = "0.0.1"
 edition = "2024"
-description = "Composable Message Queue"
 license = "BUSL-1.1"
+repository = "https://github.com/runtime-blocks/cmq"
 
 [workspace.dependencies]
 anyhow = "1.0.98"
