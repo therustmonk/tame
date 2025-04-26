@@ -1,4 +1,3 @@
-pub mod brain;
 pub mod codec;
 pub mod pubsub;
 pub mod reqrep;

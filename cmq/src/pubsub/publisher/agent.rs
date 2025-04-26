@@ -1,7 +1,7 @@
 use crate::pubsub::{PubEvent, PubSub, SubId};
 use anyhow::Result;
 use async_trait::async_trait;
-use crb::agent::{Agent, AgentSession, Context, OnEvent};
+use crb::agent::{Address, Agent, AgentSession, Context, OnEvent};
 use crb::core::{Slot, Unique, mpsc};
 use crb::superagent::{Drainer, OnRequest, Request};
 use std::collections::HashMap;
@@ -16,6 +16,7 @@ pub struct PubAgent<T: PubSub> {
 
 impl<T: PubSub> Agent for PubAgent<T> {
     type Context = AgentSession<Self>;
+    type Link = Address<Self>;
 }
 
 impl<T: PubSub> PubAgent<T> {

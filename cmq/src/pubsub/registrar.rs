@@ -6,6 +6,7 @@ use async_trait::async_trait;
 use crb::agent::{Address, Agent, Context, DoAsync, Next, OnEvent, RunAgent};
 use crb::runtime::{InteractiveRuntime, Runtime};
 use crb::superagent::{EventBridge, StreamSession, Supervisor, SupervisorSession};
+use derive_more::{Deref, DerefMut, From};
 use std::sync::LazyLock;
 use std::sync::OnceLock;
 
@@ -13,6 +14,7 @@ static REGISTRAR: OnceLock<RegistrarLink> = OnceLock::new();
 
 static BRIDGE: LazyLock<EventBridge<Control>> = LazyLock::new(|| EventBridge::new());
 
+#[derive(Deref, DerefMut, From)]
 pub struct RegistrarLink {
     address: Address<Registrar>,
 }
@@ -62,6 +64,7 @@ impl Supervisor for Registrar {
 
 impl Agent for Registrar {
     type Context = SupervisorSession<Self>;
+    type Link = RegistrarLink;
 
     fn begin(&mut self) -> Next<Self> {
         Next::do_async(Initialize)

@@ -1,22 +1,19 @@
 [workspace]
-resolver = "2"
+resolver = "3"
 members = [
-    "tame",
-    "ui",
+    "cmq",
 ]
 
 [workspace.package]
 version = "0.3.0"
 edition = "2024"
-description = "Minimalistic Personal AI Assistant"
+description = "Composable Message Queue"
 license = "BUSL-1.1"
 
 [workspace.dependencies]
-anyhow = "1.0.97"
+anyhow = "1.0.98"
 async-trait = "0.1.88"
-console_error_panic_hook = "0.1.7"
-crb = { version = "0.0.35", default-features = false }
+crb = { version = "0.0.36", default-features = false }
 derive_more = "2.0.1"
 log = "0.4.27"
 serde = "1.0.219"
-wasm-logger = "0.2.0"
